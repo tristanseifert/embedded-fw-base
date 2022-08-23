@@ -10,6 +10,9 @@ While there's no real architectural concerns in most of the shared code provided
 
 Support for RISC-V platforms is (eventually) planned.
 
+### Additional Requirements
+Only clang/llvm is supported to build the library code. You'll need to provide your own toolchain (and toolchain files) as well.
+
 # Integration
 To use the libraries, you need to _somehow_ add this CMake project as a dependency on your embedded firmware's project. There are several ways to go about this, the easiest being automatically fetching it with [FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html):
 
@@ -27,5 +30,8 @@ Various CMake options can be set to determine how to build the library.
 ### Required
 These options are required:
 
-- EFWB_VENDOR_HAL: Which vendor's HAL/drivers should be built alongside the library?
-    - Currently supported values are `stm32mp15x` and `efr32fg23`
+- EFWB_TARGET: Processor family to target. This automatically configures the applied HAL, libraries, etc.
+    - Currently supported values are `stm32mp15x` and `efr32fg23`.
+
+# Usage
+Once the library has been configured for a particular target, you can define a new firmware image with the `add_firmware_executable` command exported by this library's build script. Its semantics are very similar to the basic [add_executable](https://cmake.org/cmake/help/latest/command/add_executable.html) command, but will configure compiler and linker options appropriately.
