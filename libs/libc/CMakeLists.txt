@@ -53,3 +53,23 @@ target_include_directories(umm_malloc PRIVATE ${CMAKE_CURRENT_LIST_DIR}/Sources/
 
 target_link_libraries(libc PRIVATE umm_malloc)
 
+#########################
+# fetch printf, which becomes integrated into libc
+set(BUILD_STATIC_LIBRARY "" ON)
+set(SUPPORT_WRITEBACK_SPECIFIER "" OFF)
+
+set(SUPPORT_DECIMAL_SPECIFIERS "" OFF)
+set(SUPPORT_EXPONENTIAL_SPECIFIERS "" OFF)
+
+FetchContent_Declare(printf_library
+    GIT_REPOSITORY https://github.com/eyalroz/printf.git
+    GIT_TAG v6.0.0
+)
+FetchContent_MakeAvailable(printf_library)
+
+target_compile_options(printf PRIVATE -Wno-implicit-int-float-conversion)
+add_library(${PROJECT_NAME}::printf ALIAS printf)
+
+# printf becomes a part of libc
+target_link_libraries(libc PUBLIC ${PROJECT_NAME}::printf)
+target_compile_definitions(libc PUBLIC -DPRINTF_ALIAS_STANDARD_FUNCTION_NAMES=1)
