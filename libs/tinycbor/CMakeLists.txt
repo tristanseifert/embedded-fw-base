@@ -24,6 +24,7 @@ add_library(tinycbor STATIC
     #    ${tinycbor_SOURCE_DIR}/src/cbortojson.c
     ${tinycbor_SOURCE_DIR}/src/cborvalidation.c
 )
+add_library(${PROJECT_NAME}::tinycbor ALIAS tinycbor)
 
 target_compile_options(tinycbor PRIVATE -Wno-implicit-fallthrough)
 
