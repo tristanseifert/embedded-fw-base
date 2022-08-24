@@ -19,8 +19,18 @@ target_compile_options(etl INTERFACE -DETL_NO_STL -DETL_NO_CPP_NAN_SUPPORT)
 
 add_library(${PROJECT_NAME}::etl ALIAS etl)
 
+###############
+# TinyCBOR (CBOR encode/decode library)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/tinycbor)
+add_library(${PROJECT_NAME}::tinycbor ALIAS tinycbor)
+
 ###################################################################################################
 # Architecture-dependent libraries
+
+# 32-bit ARM
+if(${EFWB_TARGET_ARCH} STREQUAL "armv7")
+    add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/arm_cmsis)
+endif()
 
 ###################################################################################################
 # Platform-dependent libraries will be defined by the platform code itself, so we have nothing

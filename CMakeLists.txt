@@ -36,10 +36,6 @@ add_compile_options(-fno-use-cxa-atexit)
 # enable stack guards
 add_compile_options(-fstack-protector-strong)
 
-# TODO: handle this
-# # note that we can only support single precision float: warn when promoting to double
-# add_compile_options(-Wdouble-promotion)
-
 ###################################################################################################
 # Include the appropriate target configuration file
 if(NOT DEFINED EFWB_TARGET)
