@@ -17,12 +17,25 @@ Only clang/llvm is supported to build the library code. You'll need to provide y
 To use the libraries, you need to _somehow_ add this CMake project as a dependency on your embedded firmware's project. There are several ways to go about this, the easiest being automatically fetching it with [FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html):
 
 ```cmake
-# TODO: Add the example
+FetchContent_Declare(
+    fw-base
+       GIT_REPOSITORY https://github.com/tristanseifert/embedded-fw-base.git
+    GIT_TAG main
+)
+FetchContent_MakeAvailable(fw-base)
+link_libraries(embedded-fw-base::libc)
 ```
 
-Once integrated, you can link with the various targets:
+Once integrated, you can link with the various targets. Create a firmware image with the following command:
 
-** TODO: list of targets here **
+```cmake
+add_firmware_executable(NAME firmware FILENAME "output-filename"
+    LDSCRIPT ${CMAKE_CURRENT_LIST_DIR}/script.ld
+    LDMAP ${CMAKE_CURRENT_BINARY_DIR}/output.map
+    SOURCES
+    Sources/Main.cpp
+    )
+```
 
 ## Configuration
 Various CMake options can be set to determine how to build the library.
