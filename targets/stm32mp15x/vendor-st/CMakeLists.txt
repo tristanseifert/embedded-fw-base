@@ -45,7 +45,9 @@ add_library(vendor-st STATIC
     # runtime support (for working with the Linux side)
     Sources/Runtime/LockResource.c
 )
+add_library(${PROJECT_NAME}::vendor-st ALIAS vendor-st)
 
+target_compile_definitions(vendor-st PUBLIC ${EFWB_TARGET_COMPILE_DEFS})
 target_include_directories(vendor-st PUBLIC ${CMAKE_CURRENT_LIST_DIR}/Includes)
 
 target_include_directories(vendor-st PUBLIC Includes/CMSIS-Device-ST/STM32MP1xx/Include)

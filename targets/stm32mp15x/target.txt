@@ -1,0 +1,34 @@
+###################################################################################################
+# Target definition for STM32MP15x MPU core
+#
+# This is essentially a Cortex-M4F, vary similar to the STM32F4x series of chips. Its FPU supports
+# only single-precision.
+###################################################################################################
+# Set general defines
+set(EFWB_TARGET_ARCH    "armv7")
+set(EFWB_TARGET_VENDOR  "stm")
+
+# set CMSIS defines
+set(ARM_CPU             "cortex-m4f")
+
+# library configuration
+if(NOT DEFINED FREERTOS_PORT)
+    set(FREERTOS_PORT GCC_ARM_CM4F CACHE STRING "")
+endif()
+
+# include CMSIS libraries
+list(APPEND EFWB_TARGET_LIBS ${PROJECT_NAME}::cmsis ${PROJECT_NAME}::cmsis-dsp)
+
+# required compile directives
+# XXX: support other chips than STM32MP151A
+list(APPEND EFWB_TARGET_COMPILE_DEFS CORE_CM4 STM32MP151Axx)
+
+###################################################################################################
+# note that we can only support single precision float: warn when promoting to double
+add_compile_options(-Wdouble-promotion)
+
+###################################################################################################
+# include the target specific libraries
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor-st EXCLUDE_FROM_ALL)
+
+list(APPEND EFWB_TARGET_LIBS ${PROJECT_NAME}::vendor-st)
