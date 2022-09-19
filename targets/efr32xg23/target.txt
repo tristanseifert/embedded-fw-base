@@ -1,0 +1,50 @@
+###################################################################################################
+# Target definition for Silicon Labs EFR32xG23 SoCs
+###################################################################################################
+# Set general defines
+set(EFWB_TARGET_ARCH    "armv7")
+set(EFWB_TARGET_VENDOR  "silabs")
+
+# set CMSIS defines
+set(ARM_CPU             "cortex-m33")
+
+# library configuration
+if(NOT DEFINED FREERTOS_PORT)
+    set(FREERTOS_PORT GCC_ARM_CM4F CACHE STRING "")
+endif()
+
+# include CMSIS libraries
+list(APPEND EFWB_TARGET_LIBS ${PROJECT_NAME}::cmsis ${PROJECT_NAME}::cmsis-dsp)
+
+# required compile directives
+list(APPEND EFWB_TARGET_COMPILE_DEFS CORE_CM33)
+
+# Figure out the device part number
+# TODO: offer an option here
+list(APPEND EFWB_TARGET_COMPILE_DEFS EFR32FG23B020F512IM48)
+
+###################################################################################################
+# note that we can only support single precision float: warn when promoting to double
+add_compile_options(-Wdouble-promotion)
+
+###################################################################################################
+# Fetch the Gecko SDK from GitHub
+FetchContent_Declare(gecko_sdk
+    GIT_REPOSITORY https://github.com/SiliconLabs/gecko_sdk.git
+    # SDK version 4.1.1
+    GIT_TAG 799200bb6788939aa0fef97d7fc4ee9aca57148d
+)
+FetchContent_MakeAvailable(gecko_sdk)
+
+# add the general device headers to the include path
+add_library(efr32xg23-device-headers INTERFACE)
+target_include_directories(efr32xg23-device-headers INTERFACE ${gecko_sdk_SOURCE_DIR}/platform/Device/SiliconLabs/EFR32FG23/Include)
+add_library(${PROJECT_NAME}::efr32xg23-device-headers ALIAS efr32xg23-device-headers)
+
+list(APPEND EFWB_TARGET_LIBS ${PROJECT_NAME}::efr32xg23-device-headers)
+
+###################################################################################################
+# include the target specific libraries
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/startup EXCLUDE_FROM_ALL)
+
+list(APPEND EFWB_TARGET_LIBS ${PROJECT_NAME}::efr32xg23-startup)

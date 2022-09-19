@@ -64,6 +64,14 @@ add_compile_options(${EFWB_TARGET_COMPILE_OPTS})
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/libs EXCLUDE_FROM_ALL)
 
 ###################################################################################################
+# Save the compile options and target libraries that have so far been modified (by the target
+# files) into a global variable. This wayu the add_firmware_executable function can locate them
+# correctly.
+set_property(GLOBAL PROPERTY EFWB_GLOBAL_LIBS "${EFWB_TARGET_LIBS}")
+set_property(GLOBAL PROPERTY EFWB_GLOBAL_COMPILE_OPTS "${EFWB_TARGET_COMPILE_OPTS}")
+set_property(GLOBAL PROPERTY EFWB_GLOBAL_COMPILE_DEFS "${EFWB_TARGET_COMPILE_DEFS}")
+
+###################################################################################################
 find_program(CMAKE_SIZE size)
 
 # Define the wrapper to create a firmware image
@@ -87,6 +95,11 @@ function(add_firmware_executable)
     if(NOT DEFINED ADD_FWEXE_SOURCES)
         message(FATAL_ERROR "specify sources for add_firmware_executable")
     endif()
+
+    # fetch variables
+    get_property(EFWB_TARGET_LIBS GLOBAL PROPERTY EFWB_GLOBAL_LIBS)
+    get_property(EFWB_TARGET_COMPILE_OPTS GLOBAL PROPERTY EFWB_GLOBAL_COMPILE_OPTS)
+    get_property(EFWB_TARGET_COMPILE_DEFS GLOBAL PROPERTY EFWB_GLOBAL_COMPILE_DEFS)
 
     # create the target
     add_executable(${ADD_FWEXE_NAME} ${ADD_FWEXE_SOURCES})

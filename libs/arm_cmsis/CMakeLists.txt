@@ -53,7 +53,7 @@ set(QUATERNIONMATH OFF CACHE INTERNAL "" FORCE)
 list(APPEND CMAKE_MODULE_PATH ${DSP})
 
 # this is a disgusting hack, we should figure out how to change it out
-add_compile_options(-Wno-error)
+add_compile_options(-Wno-error -Wno-cast-qual)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/../libc/Includes)
 
 add_subdirectory(${DSP}/Source bin_dsp EXCLUDE_FROM_ALL)

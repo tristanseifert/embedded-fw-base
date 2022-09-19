@@ -19,7 +19,7 @@ To use the libraries, you need to _somehow_ add this CMake project as a dependen
 ```cmake
 FetchContent_Declare(
     fw-base
-       GIT_REPOSITORY https://github.com/tristanseifert/embedded-fw-base.git
+    GIT_REPOSITORY https://github.com/tristanseifert/embedded-fw-base.git
     GIT_TAG main
 )
 FetchContent_MakeAvailable(fw-base)
@@ -34,7 +34,7 @@ add_firmware_executable(NAME firmware FILENAME "output-filename"
     LDMAP ${CMAKE_CURRENT_BINARY_DIR}/output.map
     SOURCES
     Sources/Main.cpp
-    )
+)
 ```
 
 ## Configuration
