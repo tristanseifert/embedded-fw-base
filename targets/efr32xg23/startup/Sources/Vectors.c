@@ -4,6 +4,7 @@
  * @brief Interrupt vector table
  */
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdint.h>
 #include "em_device.h"
 
@@ -112,22 +113,63 @@ void RFECA1_IRQHandler(void) __attribute__ ((weak, alias("Default_Handler")));
 
 extern void SystemInit();
 
+extern void __libc_heap_init();
+extern void __libc_init_constructors();
+extern int main(int argc, char **argv);
+
+// load address of .data
+extern char _sidata;
+// RAM addresses of .data
+extern char _sdata, _edata;
+// RAM addresses of .bss
+extern char _sbss, _ebss;
+
 /**
  * @brief Application entry point
  *
  * This routine runs on startup and is responsible for setting up the C runtime.
+ *
+ * @remark This expects that .data and .bss are always 4 byte aligned.
  */
 __attribute__((section(".startup"))) void Reset_Handler() {
     // initialize system
     SystemInit();
 
     // copy .data
+    const size_t dataLen = ((uintptr_t) &_edata) - ((uintptr_t) &_sdata);
+    if(dataLen) {
+        uint32_t *readPtr  = (uint32_t *) &_sidata;
+        uint32_t *writePtr = (uint32_t *) &_sdata;
+
+        for(size_t i = 0; i < dataLen / 4; i++) {
+            *writePtr++ = *readPtr++;
+        }
+    }
 
     // init .bss
+    const size_t bssLen = ((uintptr_t) &_ebss) - ((uintptr_t) &_sbss);
+    if(bssLen) {
+        uint32_t *writePtr = (uint32_t *) &_sbss;
+
+        for(size_t i = 0; i < bssLen / 4; i++) {
+            *writePtr++ = 0;
+        }
+    }
 
     // invoke initializers
+    //__libc_heap_init();
+    __libc_init_constructors();
+
+    // platform init
+    PlatformInit();
 
     // run program
+    main(0, NULL);
+
+    // should not get here…
+    while(1) {
+
+    }
 }
 
 /**

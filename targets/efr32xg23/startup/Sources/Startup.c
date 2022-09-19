@@ -124,17 +124,19 @@ extern const tVectorEntry __VECTOR_TABLE[16 + EXT_IRQ_COUNT];
  *****************************************************************************/
 void SystemInit(void)
 {
+    // set vector table base
 #if defined (__VTOR_PRESENT) && (__VTOR_PRESENT == 1U)
-  SCB->VTOR = (uint32_t) (&__VECTOR_TABLE[0]);
+      SCB->VTOR = (uint32_t) (&__VECTOR_TABLE[0]);
 #endif
 
 #if defined(UNALIGNED_SUPPORT_DISABLE)
-  SCB->CCR |= SCB_CCR_UNALIGN_TRP_Msk;
+      SCB->CCR |= SCB_CCR_UNALIGN_TRP_Msk;
 #endif
 
+    // enable FPU
 #if (__FPU_PRESENT == 1)
-  SCB->CPACR |= ((3U << 10U * 2U)           /* set CP10 Full Access */
-                 | (3U << 11U * 2U));       /* set CP11 Full Access */
+      SCB->CPACR |= ((3U << 10U * 2U)           /* set CP10 Full Access */
+                     | (3U << 11U * 2U));       /* set CP11 Full Access */
 #endif
 
 /* Secure app takes care of moving between the security states.
