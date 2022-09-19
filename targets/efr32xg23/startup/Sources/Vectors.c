@@ -168,7 +168,7 @@ __attribute__((section(".startup"))) void Reset_Handler() {
     }
 
     // invoke initializers
-    //__libc_heap_init();
+    __libc_heap_init();
     __libc_init_constructors();
 
     // platform init
