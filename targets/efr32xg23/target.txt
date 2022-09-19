@@ -23,6 +23,11 @@ list(APPEND EFWB_TARGET_COMPILE_DEFS CORE_CM33)
 # TODO: offer an option here
 list(APPEND EFWB_TARGET_COMPILE_DEFS EFR32FG23B020F512IM48)
 
+# validate options
+if(NOT DEFINED EFWB_GECKO_CONFIG_DIR)
+    message(FATAL_ERROR "You must specify a Gecko SDK config directory: `EFWB_GECKO_CONFIG_DIR`")
+endif()
+
 ###################################################################################################
 # note that we can only support single precision float: warn when promoting to double
 add_compile_options(-Wdouble-promotion)
@@ -48,5 +53,6 @@ list(APPEND EFWB_TARGET_LIBS ${PROJECT_NAME}::efr32xg23-device-headers)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/startup EXCLUDE_FROM_ALL)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/common EXCLUDE_FROM_ALL)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/emlib EXCLUDE_FROM_ALL)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/service EXCLUDE_FROM_ALL)
 
 list(APPEND EFWB_TARGET_LIBS ${PROJECT_NAME}::efr32xg23-startup ${PROJECT_NAME}::efr32xg23-emlib)

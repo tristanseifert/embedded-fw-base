@@ -15,4 +15,5 @@ target_compile_definitions(efr32xg23-startup PUBLIC ${EFWB_TARGET_COMPILE_DEFS})
 target_include_directories(efr32xg23-startup PUBLIC ${CMAKE_CURRENT_LIST_DIR}/Includes)
 
 target_link_libraries(efr32xg23-startup PUBLIC ${PROJECT_NAME}::cmsis
-    ${PROJECT_NAME}::efr32xg23-device-headers ${PROJECT_NAME}::efr32xg23-emlib)
+    ${PROJECT_NAME}::efr32xg23-device-headers ${PROJECT_NAME}::efr32xg23-emlib
+    ${PROJECT_NAME}::efr32xg23-service-deviceinit)
