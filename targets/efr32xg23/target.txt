@@ -10,7 +10,7 @@ set(ARM_CPU             "cortex-m33")
 
 # library configuration
 if(NOT DEFINED FREERTOS_PORT)
-    set(FREERTOS_PORT GCC_ARM_CM4F CACHE STRING "")
+    set(FREERTOS_PORT "GCC_ARM_CM33_NTZ_NONSECURE" CACHE STRING "")
 endif()
 
 # include CMSIS libraries

@@ -7,7 +7,6 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "em_device.h"
-
 #include "em_chip.h"
 #include "em_cmu.h"
 
@@ -197,13 +196,19 @@ __attribute__((weak)) void PlatformInit() {
     CHIP_Init();
 
     // configure interrupt controller
-    sl_device_init_nvic();
+    // TODO: this breaks FreeRTOS :(
+    //sl_device_init_nvic();
+
+    // power (DC/DC converter)
     sl_device_init_dcdc();
+
+    // set up clocks (external crystal, PLL)
     sl_device_init_hfxo();
     sl_device_init_dpll();
 
     InitSystemClock();
 
+    // set up EMU
     sl_device_init_emu();
 }
 

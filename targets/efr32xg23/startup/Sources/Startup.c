@@ -133,6 +133,9 @@ void SystemInit(void)
     SCB->CCR |= SCB_CCR_UNALIGN_TRP_Msk;
 #endif
 
+    // enable usage fault, bus fault, mem manage fault
+    SCB->SHCSR |= (SCB_SHCSR_USGFAULTENA_Msk | SCB_SHCSR_BUSFAULTENA_Msk | SCB_SHCSR_MEMFAULTENA_Msk);
+
     // enable FPU
 #if (__FPU_PRESENT == 1)
     SCB->CPACR |= ((3U << 10U * 2U)           /* set CP10 Full Access */

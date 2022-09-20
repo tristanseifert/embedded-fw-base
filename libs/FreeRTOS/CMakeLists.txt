@@ -16,8 +16,8 @@ endif()
 
 FetchContent_Declare(FreeRTOS-Kernel
     GIT_REPOSITORY https://github.com/FreeRTOS/FreeRTOS-Kernel.git
-    # CMake support not yet in a release version
-    GIT_TAG main
+    # v10.5.0
+    GIT_TAG 6f63da2
 )
 FetchContent_MakeAvailable(FreeRTOS-Kernel)
 
