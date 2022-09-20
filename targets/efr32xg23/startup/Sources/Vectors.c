@@ -6,6 +6,8 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <string.h>
+
 #include "em_device.h"
 #include "em_chip.h"
 #include "em_cmu.h"
@@ -142,6 +144,64 @@ extern char _sbss, _ebss;
  * @remark This expects that .data and .bss are always 4 byte aligned.
  */
 __attribute__((section(".startup"))) void Reset_Handler() {
+    /*
+     * Initialize RAM in ECC mode
+     *
+     * This follows the procedure recommended in the EFR32xG23 reference manual (Rev 1.0), in
+     * section 6.6.2: enable ECC, then write zero to _all_ locations.
+     *
+     * We do this as the very first thing, since we'll end up overwriting the stack, but since this
+     * is the reset vector, there'll be nothing on it. Likewise, we must force all variables into
+     * registers so they don't get clobbered (if optimizations that would otherwise put them in
+     * registers are disabled, for example) and break things.
+     *
+     * Wrap everything in a block to encourage the compiler's optimizer to be smart about register
+     * re-use later in the function.
+     *
+     * The same procedure is followed for the radio-related RAM blocks, though we can be less
+     * janky with the way it's zeroed since there's no dependency for code execution on these
+     * memories.
+     */
+    {
+        // enable clock to DMEM block
+        CMU->CLKEN1_SET = CMU_CLKEN1_DMEM;
+
+        // enable ECC
+        DMEM->CTRL = (DMEM->CTRL & ~_MPAHBRAM_CTRL_MASK) |
+            // enable address faults
+            MPAHBRAM_CTRL_ADDRFAULTEN |
+            // enable ECC detection
+            MPAHBRAM_CTRL_ECCEN |
+            // enable ECC 1-bit error correction
+            MPAHBRAM_CTRL_ECCWEN |
+            // enable fault on ECC error
+            MPAHBRAM_CTRL_ECCERRFAULTEN;
+        __DSB();
+
+        // zero the RAM to initialize the ECC machinery
+        register uint32_t *ramBase = (uint32_t *) RAM_MEM_BASE;
+        register const size_t ramWords = RAM_MEM_SIZE / 4;
+        for(register size_t i = 0; i < ramWords; i++) {
+            *ramBase++ = 0;
+        }
+    }
+
+    // now enable ECC for the radio RAM blocks with the same procedure
+    CMU->CLKEN0_SET = CMU_CLKEN0_SYSCFG;
+    CMU->CLKEN1_SET = CMU_CLKEN1_MSC;
+
+    SYSCFG->RADIOECCCTRL = (SYSCFG->RADIOECCCTRL & ~_SYSCFG_RADIOECCCTRL_MASK) |
+        // enable detection + correction for SEQRAM
+        SYSCFG_RADIOECCCTRL_SEQRAMECCEN | SYSCFG_RADIOECCCTRL_SEQRAMECCEWEN |
+        // enable detection + correction for FRCRAM
+        SYSCFG_RADIOECCCTRL_FRCRAMECCEN | SYSCFG_RADIOECCCTRL_FRCRAMECCEWEN;
+
+    // TODO: figure out why this is broken
+#if 0
+    memset((void *) RDMEM_SEQRAM_S_MEM_BASE, 0, RDMEM_SEQRAM_S_MEM_SIZE);
+    memset((void *) RDMEM_FRCRAM_S_MEM_BASE, 0, RDMEM_FRCRAM_S_MEM_SIZE);
+#endif
+
     // initialize system
     SystemInit();
 
