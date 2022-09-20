@@ -20,8 +20,24 @@ list(APPEND EFWB_TARGET_LIBS ${PROJECT_NAME}::cmsis ${PROJECT_NAME}::cmsis-dsp)
 list(APPEND EFWB_TARGET_COMPILE_DEFS CORE_CM33)
 
 # Figure out the device part number
-# TODO: offer an option here
-list(APPEND EFWB_TARGET_COMPILE_DEFS EFR32FG23B020F512IM48)
+if(NOT DEFINED EFWB_GECKO_DEVICE)
+    message(FATAL_ERROR "You must specify a Gecko device: `EFWB_GECKO_DEVICE`")
+endif()
+
+if(${EFWB_GECKO_DEVICE} STREQUAL "EFR32FG23B020F512IM48")
+    list(APPEND EFWB_TARGET_COMPILE_DEFS EFR32FG23B020F512IM48)
+else()
+    message(FATAL_ERROR "Unsupported Gecko device: ${EFWB_GECKO_DEVICE}")
+endif()
+
+# resolve the device p/n to a part "class"
+string(FIND ${EFWB_GECKO_DEVICE} "EFR32FG23" TEMP)
+
+if(${TEMP} EQUAL 0)
+    set(EFWB_GECKO_DEVICE_CLASS "EFR32xG23")
+else()
+    message(FATAL_ERROR "Failed to determine device class for `${EFWB_GECKO_DEVICE}`")
+endif()
 
 # validate options
 if(NOT DEFINED EFWB_GECKO_CONFIG_DIR)
@@ -56,5 +72,6 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/emlib EXCLUDE_FROM_ALL)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/emdrv EXCLUDE_FROM_ALL)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/driver EXCLUDE_FROM_ALL)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/service EXCLUDE_FROM_ALL)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/rail EXCLUDE_FROM_ALL)
 
 list(APPEND EFWB_TARGET_LIBS ${PROJECT_NAME}::efr32xg23-startup ${PROJECT_NAME}::efr32xg23-emlib)

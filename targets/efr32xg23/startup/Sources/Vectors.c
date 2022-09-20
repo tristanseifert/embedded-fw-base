@@ -186,6 +186,8 @@ __attribute__((section(".startup"))) void Reset_Handler() {
         }
     }
 
+    // TODO: figure out how to make this work
+#if 0
     // now enable ECC for the radio RAM blocks with the same procedure
     CMU->CLKEN0_SET = CMU_CLKEN0_SYSCFG;
     CMU->CLKEN1_SET = CMU_CLKEN1_MSC;
@@ -196,8 +198,6 @@ __attribute__((section(".startup"))) void Reset_Handler() {
         // enable detection + correction for FRCRAM
         SYSCFG_RADIOECCCTRL_FRCRAMECCEN | SYSCFG_RADIOECCCTRL_FRCRAMECCEWEN;
 
-    // TODO: figure out why this is broken
-#if 0
     memset((void *) RDMEM_SEQRAM_S_MEM_BASE, 0, RDMEM_SEQRAM_S_MEM_SIZE);
     memset((void *) RDMEM_FRCRAM_S_MEM_BASE, 0, RDMEM_FRCRAM_S_MEM_SIZE);
 #endif
@@ -290,16 +290,12 @@ __attribute__((weak)) void InitSystemClock() {
 #endif
     CMU_ClockSelectSet(cmuClock_EM23GRPACLK, cmuSelect_LFRCO);
     CMU_ClockSelectSet(cmuClock_EM4GRPACLK, cmuSelect_LFRCO);
-
-    // enable RTCC and SYSRTC clocks
 #if defined(RTCC_PRESENT)
     CMU_ClockSelectSet(cmuClock_RTCC, cmuSelect_LFRCO);
 #endif
 #if defined(SYSRTC_PRESENT)
     CMU_ClockSelectSet(cmuClock_SYSRTC, cmuSelect_LFRCO);
 #endif
-
-    // enable WDOG0 (optionally WDOG1)
     CMU_ClockSelectSet(cmuClock_WDOG0, cmuSelect_LFRCO);
 #if WDOG_COUNT > 1
     CMU_ClockSelectSet(cmuClock_WDOG1, cmuSelect_LFRCO);
