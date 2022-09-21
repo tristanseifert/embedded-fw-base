@@ -5,3 +5,4 @@
 ####################################################################################################
 
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/device_init EXCLUDE_FROM_ALL)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/sleeptimer EXCLUDE_FROM_ALL)

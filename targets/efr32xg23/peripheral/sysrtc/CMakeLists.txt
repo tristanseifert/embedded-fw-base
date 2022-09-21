@@ -1,8 +1,8 @@
 ####################################################################################################
-# GPIO interrupt driver
+# SYSRTC peripheral support
 ####################################################################################################
-set(BASE        "${gecko_sdk_SOURCE_DIR}/platform/emdrv/gpiointerrupt")
-set(LIBNAME     "efr32xg23-emdrv-gpiointerrupt")
+set(BASE        "${gecko_sdk_SOURCE_DIR}/platform/peripheral")
+set(LIBNAME     "efr32xg23-peripheral-sysrtc")
 
 file(GLOB SRC_FILES ${BASE}/src/*.c)
 add_library(${LIBNAME} STATIC ${SRC_FILES})
@@ -12,4 +12,4 @@ target_include_directories(${LIBNAME} PUBLIC ${BASE}/inc)
 target_include_directories(${LIBNAME} PRIVATE ${EFWB_GECKO_CONFIG_DIR})
 
 target_link_libraries(${LIBNAME} PRIVATE ${PROJECT_NAME}::efr32xg23-device-headers)
-target_link_libraries(${LIBNAME} PUBLIC ${PROJECT_NAME}::efr32xg23-emlib)
+target_link_libraries(${LIBNAME} PRIVATE ${PROJECT_NAME}::efr32xg23-emlib)
