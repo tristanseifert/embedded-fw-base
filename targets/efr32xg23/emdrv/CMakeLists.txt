@@ -11,5 +11,6 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/common EXCLUDE_FROM_ALL)
 # driver implementations
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/dmadrv EXCLUDE_FROM_ALL)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/gpiointerrupt EXCLUDE_FROM_ALL)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/spidrv EXCLUDE_FROM_ALL)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/tempdrv EXCLUDE_FROM_ALL)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/uartdrv EXCLUDE_FROM_ALL)
