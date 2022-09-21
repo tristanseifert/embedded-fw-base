@@ -21,7 +21,7 @@ list(APPEND EFWB_TARGET_COMPILE_OPTS -Wall -Wmissing-declarations -Wformat=2
     -fdiagnostics-color=always -ftls-model=initial-exec -Wundef -Wcast-qual -Wwrite-strings)
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    list(APPEND EFWB_TARGET_COMPILE_OPTS -Werror -Wimplicit-fallthrough -Wno-deprecated-copy
+    list(APPEND EFWB_TARGET_COMPILE_OPTS -Wimplicit-fallthrough -Wno-deprecated-copy
         -Wno-address-of-packed-member -Wno-expansion-to-defined -Wno-undef
         -Wno-unused-private-field -Wno-deprecated-volatile)
 endif()
