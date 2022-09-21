@@ -135,6 +135,8 @@ extern char _sidata;
 extern char _sdata, _edata;
 // RAM addresses of .bss
 extern char _sbss, _ebss;
+// Top of stack
+extern char _sstack;
 
 /**
  * @brief Application entry point
@@ -144,6 +146,9 @@ extern char _sbss, _ebss;
  * @remark This expects that .data and .bss are always 4 byte aligned.
  */
 __attribute__((section(".startup"))) void Reset_Handler() {
+    // set up stack limits
+    __set_MSPLIM((uintptr_t) (&_sstack));
+
     /*
      * Initialize RAM in ECC mode
      *

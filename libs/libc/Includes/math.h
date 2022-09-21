@@ -33,7 +33,7 @@ static inline float fabsf(float x) {
  */
 static inline float sqrtf(float x) {
     float result;
-    asm("vsqrt.f32 %0, %1" : "=w" (result) : "w" (x));
+    asm("vsqrt.f32 %0, %1" : "=t" (result) : "t" (x));
     return result;
 }
 
