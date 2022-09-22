@@ -2,6 +2,7 @@
 # Libraries independent of architecture/platform we'll run on
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/libc)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/etl)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/util EXCLUDE_FROM_ALL)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/spiffs EXCLUDE_FROM_ALL)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/tinycbor EXCLUDE_FROM_ALL)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/FreeRTOS EXCLUDE_FROM_ALL)

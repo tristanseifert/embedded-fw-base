@@ -112,7 +112,8 @@ function(add_firmware_executable)
         -flto)
 
     # link required libraries
-    target_link_libraries(${ADD_FWEXE_NAME} PUBLIC embedded-fw-base::libc embedded-fw-base::etl)
+    target_link_libraries(${ADD_FWEXE_NAME} PUBLIC embedded-fw-base::libc embedded-fw-base::etl
+        embedded-fw-base::util)
     target_link_libraries(${ADD_FWEXE_NAME} PUBLIC ${EFWB_TARGET_LIBS})
     target_compile_definitions(${ADD_FWEXE_NAME} PUBLIC ${EFWB_TARGET_COMPILE_DEFS})
 

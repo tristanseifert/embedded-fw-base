@@ -17,7 +17,7 @@ endif()
 list(APPEND EFWB_TARGET_LIBS ${PROJECT_NAME}::cmsis ${PROJECT_NAME}::cmsis-dsp)
 
 # required compile directives
-list(APPEND EFWB_TARGET_COMPILE_DEFS CORE_CM33)
+list(APPEND EFWB_TARGET_COMPILE_DEFS CORE_CM33 SL_RAMFUNC_DISABLE)
 
 # Figure out the device part number
 if(NOT DEFINED EFWB_GECKO_DEVICE)
