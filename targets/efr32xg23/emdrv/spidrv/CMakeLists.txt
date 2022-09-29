@@ -12,6 +12,7 @@ add_library(${PROJECT_NAME}::${LIBNAME} ALIAS ${LIBNAME})
 
 target_include_directories(${LIBNAME} PUBLIC ${BASE}/inc)
 target_include_directories(${LIBNAME} PRIVATE ${EFWB_GECKO_CONFIG_DIR})
+target_compile_definitions(${LIBNAME} PRIVATE ${EFWB_TARGET_COMPILE_DEFS})
 
 target_link_libraries(${LIBNAME} PRIVATE ${PROJECT_NAME}::efr32xg23-device-headers
     ${PROJECT_NAME}::efr32xg23-emdrv-common)
