@@ -5,6 +5,8 @@ This "library" provides the FreeRTOS kernel that can be added to applications, a
 The following targets are exported:
 
 - `embedded-fw-base::FreeRTOS`: FreeRTOS kernel
+- `embedded-fw-base::FreeRTOS-CMSIS`: FreeRTOS kernel, but with CMSIS-RTOS2 wrapper API
+    - This code has some minor changes on top of what ARM provides; be sure to keep this in mind when updating it.
 
 ## Configuration
 You _must_ set the `FREERTOS_CONFIG_FILE_DIRECTORY` variable in your project file to define where the FreeRTOS config header file lives.

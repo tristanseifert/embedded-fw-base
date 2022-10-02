@@ -26,6 +26,16 @@ target_include_directories(cmsis INTERFACE ${CMSIS_INCLUDE_DIR})
 add_library(${PROJECT_NAME}::cmsis ALIAS cmsis)
 
 ####################################################################################################
+# CMSIS RTOS (version 2)
+#
+# Provides a system-agnostic wrapper around RTOS function calls
+add_library(cmsis-rtos2 INTERFACE)
+target_include_directories(cmsis-rtos2 INTERFACE ${cmsis_5_SOURCE_DIR}/CMSIS/RTOS2/Include)
+target_link_libraries(cmsis-rtos2 INTERFACE ${PROJECT_NAME}::cmsis)
+
+add_library(${PROJECT_NAME}::cmsis-rtos2 ALIAS cmsis-rtos2)
+
+####################################################################################################
 # CMSIS DSP
 #
 # This is primarily used for some fast math functions, which the C library then re-exports as

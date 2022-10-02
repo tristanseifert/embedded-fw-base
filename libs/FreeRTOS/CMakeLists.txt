@@ -23,3 +23,20 @@ FetchContent_MakeAvailable(FreeRTOS-Kernel)
 
 target_link_libraries(freertos_kernel ${PROJECT_NAME}::libc ${EFWB_TARGET_LIBS})
 add_library(${PROJECT_NAME}::FreeRTOS ALIAS freertos_kernel)
+
+####################################################################################################
+# Supporting library to provide a CMSIS-RTOS2 compliant interface to FreeRTOS
+#
+# This uses the ARM-provided wrappers around FreeRTOS. It's packaged as a library that contains all
+# of the wrapper code, which will in turn pull in FreeRTOS and the CMSIS-RTOS2 headers into the
+# project.
+#
+# Sources currently in the `cmsis-rtos2` directory correspond to the ARM release for FreeRTOS
+# v10.4.3.
+add_library(FreeRTOS-CMSIS STATIC
+    ${CMAKE_CURRENT_LIST_DIR}/cmsis-rtos2/cmsis_os2.c
+)
+target_include_directories(FreeRTOS-CMSIS PUBLIC ${CMAKE_CURRENT_LIST_DIR}/cmsis-rtos2)
+target_link_libraries(FreeRTOS-CMSIS PUBLIC ${PROJECT_NAME}::FreeRTOS
+    ${PROJECT_NAME}::cmsis-rtos2)
+add_library(${PROJECT_NAME}::FreeRTOS-CMSIS ALIAS FreeRTOS-CMSIS)
