@@ -3,9 +3,16 @@
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/libc)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/etl)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/util EXCLUDE_FROM_ALL)
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/spiffs EXCLUDE_FROM_ALL)
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/tinycbor EXCLUDE_FROM_ALL)
+
+# runtime/OS support
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/FreeRTOS EXCLUDE_FROM_ALL)
+
+# data formats
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/nanopb EXCLUDE_FROM_ALL)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/tinycbor EXCLUDE_FROM_ALL)
+
+# filesystem, storage, and friends
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/spiffs EXCLUDE_FROM_ALL)
 
 ###################################################################################################
 # Architecture-dependent libraries

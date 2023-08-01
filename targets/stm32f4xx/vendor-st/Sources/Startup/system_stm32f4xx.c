@@ -101,9 +101,6 @@ __attribute__((section(".startup"))) void SystemInit(void)
 #if defined(USER_VECT_TAB_ADDRESS)
   SCB->VTOR = VECT_TAB_BASE_ADDRESS | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal SRAM */
 #endif /* USER_VECT_TAB_ADDRESS */
-
-    // update system clock value
-    SystemCoreClockUpdate();
 }
 
 /**
