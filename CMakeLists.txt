@@ -125,10 +125,10 @@ function(add_firmware_executable)
 
     # specify linker script and map output
     if(DEFINED ADD_FWEXE_LDSCRIPT)
-        set_target_properties(firmware PROPERTIES LINK_DEPENDS ${ADD_FWEXE_LDSCRIPT})
+        set_target_properties(${ADD_FWEXE_NAME} PROPERTIES LINK_DEPENDS ${ADD_FWEXE_LDSCRIPT})
 
         if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-            target_link_options(firmware PRIVATE "-Wl,-T${ADD_FWEXE_LDSCRIPT}")
+            target_link_options(${ADD_FWEXE_NAME} PRIVATE "-Wl,-T${ADD_FWEXE_LDSCRIPT}")
         else()
             message(FATAL_ERROR "don't know how to set linker script for compiler '${CMAKE_CXX_COMPILER_ID}'")
         endif()
@@ -138,7 +138,7 @@ function(add_firmware_executable)
 
     if(DEFINED ADD_FWEXE_LDMAP)
         if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-            target_link_options(firmware PRIVATE "-Wl,-Map,${ADD_FWEXE_LDMAP}")
+            target_link_options(${ADD_FWEXE_NAME} PRIVATE "-Wl,-Map,${ADD_FWEXE_LDMAP}")
         else()
             message(AUTHOR_WARNING "don't know how to enable linker map for compiler '${CMAKE_CXX_COMPILER_ID}'")
         endif()
@@ -146,6 +146,6 @@ function(add_firmware_executable)
 
     # print the size of the image once compiled
     add_custom_command(TARGET ${ADD_FWEXE_NAME} POST_BUILD
-        COMMAND ${CMAKE_SIZE} $<TARGET_FILE:firmware>
+        COMMAND ${CMAKE_SIZE} $<TARGET_FILE:${ADD_FWEXE_NAME}>
     )
 endfunction()

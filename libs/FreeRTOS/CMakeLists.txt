@@ -16,12 +16,12 @@ endif()
 
 FetchContent_Declare(FreeRTOS-Kernel
     GIT_REPOSITORY https://github.com/FreeRTOS/FreeRTOS-Kernel.git
-    # v10.5.0
-    GIT_TAG 6f63da2
+    # v10.6.0
+    GIT_TAG V10.6.0
 )
 FetchContent_MakeAvailable(FreeRTOS-Kernel)
 
-target_link_libraries(freertos_kernel ${PROJECT_NAME}::libc ${EFWB_TARGET_LIBS})
+target_link_libraries(freertos_kernel PUBLIC ${PROJECT_NAME}::libc ${EFWB_TARGET_LIBS})
 add_library(${PROJECT_NAME}::FreeRTOS ALIAS freertos_kernel)
 
 ####################################################################################################
