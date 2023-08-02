@@ -21,7 +21,27 @@ FetchContent_Declare(FreeRTOS-Kernel
 )
 FetchContent_MakeAvailable(FreeRTOS-Kernel)
 
+# disable some warnings that break FreeRTOS on clang
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    set(EFWB_FREERTOS_OPTIONS
+        # ignore some macros/stuff that evaluates to nothing
+        -Wno-unused-macros -Wno-extra-semi-stmt
+        # this one should probably get fixed in the FreeRTOS code...
+        -Wno-unsafe-buffer-usage
+        -Wno-covered-switch-default
+        # we did ask for it to be pendantic…
+        -Wno-padded -Wno-missing-noreturn
+        # this is only needed for the uxTopUsedPriority variable
+        -Wno-missing-variable-declarations
+        )
+endif()
+
+target_compile_options(freertos_kernel PRIVATE ${EFWB_FREERTOS_OPTIONS})
+target_compile_options(freertos_kernel_port PRIVATE ${EFWB_FREERTOS_OPTIONS})
+
 target_link_libraries(freertos_kernel PUBLIC ${PROJECT_NAME}::libc ${EFWB_TARGET_LIBS})
+target_link_libraries(freertos_kernel_port PUBLIC ${PROJECT_NAME}::libc ${EFWB_TARGET_LIBS})
+
 add_library(${PROJECT_NAME}::FreeRTOS ALIAS freertos_kernel)
 
 ####################################################################################################

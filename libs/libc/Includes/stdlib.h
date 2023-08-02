@@ -12,7 +12,7 @@
 extern "C" {
 #endif
 
-void abort() __attribute__((noreturn));
+void abort(void) __attribute__((noreturn));
 
 void *malloc(size_t);
 void *calloc(size_t, size_t);
