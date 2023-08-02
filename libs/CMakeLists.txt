@@ -13,6 +13,7 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/tinycbor EXCLUDE_FROM_ALL)
 
 # filesystem, storage, and friends
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/spiffs EXCLUDE_FROM_ALL)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/uzlib EXCLUDE_FROM_ALL)
 
 ###################################################################################################
 # Architecture-dependent libraries
