@@ -4,6 +4,7 @@
 set(LIBNAME     "util")
 
 add_library(${LIBNAME} STATIC
+    Sources/Date.cpp
     Sources/Hash.cpp
 )
 add_library(${PROJECT_NAME}::${LIBNAME} ALIAS ${LIBNAME})
