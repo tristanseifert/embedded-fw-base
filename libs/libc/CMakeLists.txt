@@ -4,6 +4,24 @@
 ####################################################################################################
 add_library(libc STATIC
     Sources/stdlib/abort.cpp
+    Sources/stdlib/atoi.c
+
+    Sources/ctype/isalnum.c
+    Sources/ctype/isalpha.c
+    Sources/ctype/isascii.c
+    Sources/ctype/isblank.c
+    Sources/ctype/iscntrl.c
+    Sources/ctype/isdigit.c
+    Sources/ctype/isgraph.c
+    Sources/ctype/islower.c
+    Sources/ctype/isprint.c
+    Sources/ctype/ispunct.c
+    Sources/ctype/isspace.c
+    Sources/ctype/isupper.c
+    Sources/ctype/isxdigit.c
+    Sources/ctype/toascii.c
+    Sources/ctype/tolower.c
+    Sources/ctype/toupper.c
 
     Sources/string/memchr.c
     Sources/string/memcmp.c

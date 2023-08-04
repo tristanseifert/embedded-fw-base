@@ -19,6 +19,8 @@ void *calloc(size_t, size_t);
 void *realloc(void *, size_t);
 void free(void *);
 
+int atoi(const char * str);
+
 #ifdef __cplusplus
 }
 #endif
