@@ -58,16 +58,22 @@ target_link_libraries(libc PRIVATE umm_malloc)
 # fetch printf, which becomes integrated into libc
 set(BUILD_STATIC_LIBRARY "" ON)
 set(SUPPORT_WRITEBACK_SPECIFIER "" OFF)
-
+set(ALIAS_STANDARD_FUNCTION_NAMES_HARD "" ON)
 set(SUPPORT_DECIMAL_SPECIFIERS "" OFF)
 set(SUPPORT_EXPONENTIAL_SPECIFIERS "" OFF)
 
 FetchContent_Declare(printf_library
     GIT_REPOSITORY https://github.com/eyalroz/printf.git
-    GIT_TAG v6.0.0
+    GIT_TAG v6.1.0
 )
 FetchContent_MakeAvailable(printf_library)
 
+if(${EFWB_PRINTF_CONFIG_DIR})
+    target_include_directories(printf_library PUBLIC ${EFWB_PRINTF_CONFIG_DIR})
+endif()
+
+target_compile_definitions(printf PRIVATE -DPRINTF_INCLUDE_CONFIG_H -DPRINTF_ALIAS_STANDARD_FUNCTION_NAMES)
+target_compile_definitions(printf PUBLIC -DPRINTF_ALIAS_STANDARD_FUNCTION_NAMES_HARD)
 target_compile_options(printf PRIVATE -Wno-implicit-int-float-conversion)
 add_library(${PROJECT_NAME}::printf ALIAS printf)
 

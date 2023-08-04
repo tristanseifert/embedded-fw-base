@@ -6,6 +6,7 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/util EXCLUDE_FROM_ALL)
 
 # runtime/OS support
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/FreeRTOS EXCLUDE_FROM_ALL)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/segger-rtt EXCLUDE_FROM_ALL)
 
 # data formats
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/nanopb EXCLUDE_FROM_ALL)
