@@ -16,6 +16,10 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/tinycbor EXCLUDE_FROM_ALL)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/spiffs EXCLUDE_FROM_ALL)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/uzlib EXCLUDE_FROM_ALL)
 
+# networking and crypto
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/lwip EXCLUDE_FROM_ALL)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/mbedtls EXCLUDE_FROM_ALL)
+
 ###################################################################################################
 # Architecture-dependent libraries
 
