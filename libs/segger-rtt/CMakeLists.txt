@@ -11,7 +11,7 @@ add_library(segger-rtt STATIC
 
 add_library(${PROJECT_NAME}::segger-rtt ALIAS segger-rtt)
 target_include_directories(segger-rtt PUBLIC ${CMAKE_CURRENT_LIST_DIR}/Includes)
-target_link_libraries(segger-rtt PUBLIC libc)
+target_link_libraries(segger-rtt PRIVATE libc)
 
 target_compile_options(segger-rtt PRIVATE -Wno-cast-qual)
 

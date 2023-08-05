@@ -20,7 +20,7 @@ add_library(uzlib STATIC
     ${uzlib_SOURCE_DIR}/src/genlz77.c
 )
 
-target_link_libraries(uzlib PUBLIC libc)
+target_link_libraries(uzlib PRIVATE libc)
 target_include_directories(uzlib PUBLIC ${uzlib_SOURCE_DIR}/src)
 
 add_library(${PROJECT_NAME}::uzlib ALIAS uzlib)

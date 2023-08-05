@@ -47,6 +47,8 @@ add_library(libc STATIC
 
     Sources/runtime/init.c
 )
+set_target_properties(libc PROPERTIES OUTPUT_NAME "c")
+
 add_library(${PROJECT_NAME}::libc ALIAS libc)
 
 target_include_directories(libc PUBLIC ${CMAKE_CURRENT_LIST_DIR}/Includes)

@@ -31,10 +31,10 @@ include(${LWIP_CONTRIB_DIR}/Filelists.cmake)
 
 # create target for base library
 add_library(${PROJECT_NAME}::lwipcore ALIAS lwipcore)
-target_link_libraries(lwipcore PUBLIC libc printf)
+target_link_libraries(lwipcore PRIVATE libc printf)
 
 add_library(${PROJECT_NAME}::lwipallapps ALIAS lwipallapps)
-target_link_libraries(lwipallapps PUBLIC libc printf)
+target_link_libraries(lwipallapps PRIVATE libc printf)
 
 # create a wrapper (including FreeRTOS platform glue)
 add_library(lwip STATIC
