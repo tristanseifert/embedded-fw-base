@@ -4,6 +4,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include <etl/span.h>
+
 namespace Util {
 /**
  * @brief Type for UNIX timestamp
@@ -72,9 +74,21 @@ struct Date {
         return out;
     }
 
+    /// Format date as an ISO 8601 string
+    inline int toIso8601String(etl::span<char> buffer) const {
+        return FormatIso8601String(*this, buffer);
+    }
+    /// Format date for use in HTTP protocol
+    inline int toHttpDateString(etl::span<char> buffer) const {
+        return FormatHttpString(*this, buffer);
+    }
+
     static bool FromTimestamp(const Timestamp unixTimestamp, Date &out);
     static bool ToTimestamp(const Date &date, Timestamp &outTimestamp);
     static bool GetWeekday(const Date &date, Weekday &out);
+
+    static int FormatIso8601String(const Date &date, etl::span<char> out);
+    static int FormatHttpString(const Date &date, etl::span<char> out);
 };
 }
 

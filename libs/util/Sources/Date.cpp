@@ -1,6 +1,24 @@
 #include <limits.h>
+#include <etl/array.h>
+#include <printf/printf.h>
 
 #include "Util/Date.h"
+
+namespace Util {
+/**
+ * @brief Map of month name -> short name
+ */
+static const etl::array<const char *, 12> gMonthShortNames{{
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+}};
+
+/**
+ * @brief Map of weekday index -> short name
+ */
+static const etl::array<const char *, 7> gWeekdayShortNames{{
+    "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"
+}};
+}
 
 using namespace Util;
 
@@ -147,4 +165,22 @@ bool Date::GetWeekday(const Date &date, Weekday &out) {
     }
 
     return true;
+}
+
+
+/**
+ * @brief Convert date to string (ISO 8601 format)
+ */
+int Date::FormatIso8601String(const Date &date, etl::span<char> out) {
+    return snprintf(out.data(), out.size(), "%04d-%02d-%02dT%02d:%02d:%02dZ", date.year, date.month,
+            date.day, date.hour, date.minute, date.second);
+}
+
+/**
+ * @brief Convert date to string (HTTP header format)
+ */
+int Date::FormatHttpString(const Date &date, etl::span<char> out) {
+    return snprintf(out.data(), out.size(), "%s, %02d %s %4d %02d:%02d:%02d GMT",
+            gWeekdayShortNames[static_cast<size_t>(date.getWeekday())], date.day,
+            gMonthShortNames[date.month - 1], date.year, date.hour, date.minute, date.second);
 }
