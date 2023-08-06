@@ -26,7 +26,7 @@ add_library(${LIBNAME} STATIC
 )
 add_library(${PROJECT_NAME}::${LIBNAME} ALIAS ${LIBNAME})
 
-target_include_directories(${LIBNAME} PRIVATE ${EFWB_SPIFFS_CONFIG_DIR})
+target_include_directories(${LIBNAME} PUBLIC ${EFWB_SPIFFS_CONFIG_DIR})
 target_include_directories(${LIBNAME} PUBLIC ${spiffs_SOURCE_DIR}/src)
 
 target_link_libraries(${LIBNAME} PUBLIC ${PROJECT_NAME}::libc)
