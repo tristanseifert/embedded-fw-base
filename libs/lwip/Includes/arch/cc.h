@@ -17,6 +17,9 @@
 #define PACK_STRUCT_END
 #define PACK_STRUCT_FIELD(x) x
 
+#ifdef __cplusplus
+extern "C"
+#endif
 void log_panic(const char *, ...);
 
 #define LWIP_PLATFORM_ASSERT(x) do {log_panic("Assertion \"%s\" failed at line %d in %s\n", \

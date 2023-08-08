@@ -37,8 +37,22 @@ static inline float sqrtf(float x) {
     return result;
 }
 
+static inline float fabs(float x) {
+    float result;
+    asm("vabs.f32 %0, %1" : "=t" (result) : "t" (x));
+    return result;
+}
+
 float sinf(float x);
 float cosf(float x);
+
+float expf(float x);
+float logf(float x);
+
+// stub functions for 64-bit double math
+double exp(double x);
+double log(double x);
+double sqrt(double x);
 
 #define MAXFLOAT	3.40282347e+38F
 

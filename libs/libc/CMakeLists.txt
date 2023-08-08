@@ -44,6 +44,7 @@ add_library(libc STATIC
     Sources/malloc/malloc_api.c
 
     Sources/math/trig.c
+    Sources/math/logf.c
 
     Sources/runtime/init.c
 )

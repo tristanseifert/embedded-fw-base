@@ -68,5 +68,5 @@ include_directories(${CMAKE_CURRENT_LIST_DIR}/../libc/Includes)
 
 add_subdirectory(${DSP}/Source bin_dsp EXCLUDE_FROM_ALL)
 
-target_link_libraries(libc PRIVATE CMSISDSP)
 add_library(${PROJECT_NAME}::cmsis-dsp ALIAS CMSISDSP)
+target_link_libraries(libc PUBLIC ${PROJECT_NAME}::cmsis-dsp)

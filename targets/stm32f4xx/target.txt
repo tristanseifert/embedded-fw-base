@@ -16,7 +16,7 @@ if(NOT DEFINED FREERTOS_PORT)
 endif()
 
 # include CMSIS libraries
-list(APPEND EFWB_TARGET_LIBS ${PROJECT_NAME}::cmsis ${PROJECT_NAME}::cmsis-dsp)
+list(APPEND EFWB_TARGET_LIBS ${PROJECT_NAME}::cmsis)
 
 # required compile directives
 # XXX: support other chips
