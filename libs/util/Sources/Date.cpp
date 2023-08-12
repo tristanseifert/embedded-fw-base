@@ -93,12 +93,13 @@ bool Date::FromTimestamp(const Timestamp t, Date &out) {
         return false;
     }
 
-    out.year = years + 100;
+    out.year = (years + 100) + 1900;
     out.month = months + 2;
     if(out.month >= 12) {
         out.month -= 12;
         out.year++;
     }
+    out.month++;
     out.day = remdays + 1;
     // TODO: do we want/need to store these?
     //tm->tm_wday = wday;
