@@ -44,7 +44,16 @@ target_link_libraries(lwip PUBLIC ${PROJECT_NAME}::lwipcore ${PROJECT_NAME}::lwi
 target_link_libraries(lwip PUBLIC ${PROJECT_NAME}::FreeRTOS)
 target_include_directories(lwip PUBLIC ${LWIP_INCLUDE_DIRS})
 
+# separate wrapper without the apps
+add_library(lwip-noapps STATIC
+    ${LWIP_CONTRIB_DIR}/ports/freertos/sys_arch.c
+)
+target_link_libraries(lwip-noapps PUBLIC ${PROJECT_NAME}::lwipcore)
+target_link_libraries(lwip-noapps PUBLIC ${PROJECT_NAME}::FreeRTOS)
+target_include_directories(lwip-noapps PUBLIC ${LWIP_INCLUDE_DIRS})
+
 # smtp uses strcpy() and doesn't compile cleanly, so ignore it
 set_source_files_properties(${LWIP_DIR}/src/apps/smtp/smtp.c PROPERTIES HEADER_FILE_ONLY ON)
 
 add_library(${PROJECT_NAME}::lwip ALIAS lwip)
+add_library(${PROJECT_NAME}::lwip-noapps ALIAS lwip-noapps)
