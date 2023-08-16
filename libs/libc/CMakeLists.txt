@@ -36,6 +36,7 @@ add_library(libc STATIC
     Sources/string/strcspn.c
     Sources/string/strlen.c
     Sources/string/strspn.c
+    Sources/string/strcasecmp.c
 
     Sources/aeabi/aeabi_memcpy.c
     Sources/aeabi/aeabi_memcpy.S
